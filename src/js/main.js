@@ -16,7 +16,7 @@ window.cancelRequestAnimFrame = ( function() {
     window.mozCancelRequestAnimationFrame       ||
     window.oCancelRequestAnimationFrame     ||
     window.msCancelRequestAnimationFrame        ||
-    clearTimeout
+    clearTimeout;
 } )();
 
 
@@ -27,7 +27,7 @@ var canvas = document.getElementById("canvas"),
     H = window.innerHeight, // Window's height
     particles = [], // Array containing particles
     ball = {}, // Ball object
-    paddles = [2], // Array containing two paddles
+    paddles = [4], // Array containing two paddles
     mouse = {}, // Mouse object to store it's current position
     points = 0, // Varialbe to store points
     fps = 60, // Max FPS (frames per second)
@@ -61,17 +61,42 @@ function paintCanvas() {
 // Function for creating paddles
 function Paddle(pos) {
   // Height and width
-  this.h = 30;
-  this.w = 150;
-  
+  if(this.h = (pos === "left") || (pos === "right")) {
+    this.h = 200;
+  } else {
+    this.h = 30;
+  }
+
+  if(this.w = (pos === "left") || (pos === "right")) {
+    this.w = 30;
+  } else {
+    this.w = 200;
+  }
+
   // Paddle's position
-  this.x = W/2 - this.w/2;
-  this.y = (pos == "top") ? 0 : H - this.h;
+  // this.x = (pos === "right") ? W : (pos === "left") ? 0 : W/2 - this.w/2;
+  if(this.x = (pos === "right")) {
+    this.x = W - this.w;
+  } else if(this.x = (pos === "left")) {
+    this.x = 0;
+  } else {
+    this.x = W/2 - this.w/2;
+  }
+
+  if(this.y = (pos === "top")) {
+    this.y = 0;
+  } else if(this.y = (pos === "right") || (pos === "left")) {
+    this.y = H/2 - this.h/2;
+  } else {
+    this.y = H - this.h;
+  }
 }
 
 // Push two new paddles into the paddles[] array
 paddles.push(new Paddle("bottom"));
 paddles.push(new Paddle("top"));
+paddles.push(new Paddle("right"));
+paddles.push(new Paddle("left"));
 
 // Ball object
 ball = {
@@ -146,15 +171,35 @@ function createParticles(x, y, m) {
 function draw() {
   paintCanvas();
   for(var i = 0; i < paddles.length; i++) {
-    p = paddles[1];
+    p = paddles[i];
     
     ctx.fillStyle = "white";
     ctx.fillRect(p.x, p.y, p.w, p.h);
   }
-  
+
   ball.draw();
   update();
 }
+
+// Start Button object
+startBtn = {
+  w: 300,
+  h: 100,
+  x: W/2 - 150,
+  y: H/2 - 56,
+  
+  draw: function() {
+    ctx.strokeStyle = "white";
+    ctx.lineWidth = "10";
+    ctx.strokeRect(this.x, this.y, this.w, this.h);
+    
+    ctx.font = "56px minecraft, sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStlye = "white";
+    ctx.fillText("START", W/2, H/2 );
+  }
+};
 
 // Function to increase speed after every 5 points
 function increaseSpd() {
@@ -182,11 +227,17 @@ function update() {
   // Move the paddles on mouse move
   if(mouse.x && mouse.y) {
     for(var i = 1; i < paddles.length; i++) {
-      p = paddles[i];
-      p.x = mouse.x - p.w/2;
+      p1 = paddles[1];
+      p1.x = mouse.x - p.w/2;
+      p2 = paddles[2];
+      p2.x = mouse.x - p.w/2;
+      p3 = paddles[3];
+      p3.y = mouse.y - p.h/2;
+      p4 = paddles[4];
+      p4.y = mouse.y - p.h/2;
     }   
   }
-  
+
   // Move the ball
   ball.x += ball.vx;
   ball.y += ball.vy;
@@ -194,6 +245,8 @@ function update() {
   // Collision with paddles
   p1 = paddles[1];
   p2 = paddles[2];
+  p3 = paddles[3];
+  p4 = paddles[4];
   
   // If the ball strikes with paddles,
   // invert the y-velocity vector of ball,
@@ -206,7 +259,15 @@ function update() {
   }
   
   else if(collides(ball, p2)) {
-    // collideAction(ball, p2);
+    collideAction(ball, p2);
+  }
+
+  else if(collides(ball, p3)) {
+    collideAction(ball, p3);
+  }
+
+  else if(collides(ball, p4)) {
+    collideAction(ball, p4);
   } 
   
   else {
@@ -238,7 +299,7 @@ function update() {
   }
   
   // If flag is set, push the particles
-  if(flag == 1) { 
+  if(flag === 1) { 
     for(var k = 0; k < particlesCount; k++) {
       particles.push(new createParticles(particlePos.x, particlePos.y, multiplier));
     }
@@ -271,7 +332,11 @@ function collides(b, p) {
 
 //Do this when collides === true
 function collideAction(ball, p) {
-  ball.vy = -ball.vy;
+  if (p == 'left' || p == 'right') {
+    ball.vx = -ball.vx;
+  } else {
+    ball.vy = -ball.vy;
+  }
   
   if(paddleHit === 1) {
     ball.y = p.y - p.h;
@@ -282,6 +347,18 @@ function collideAction(ball, p) {
   else if(paddleHit === 2) {
     ball.y = p.h + ball.r;
     particlePos.y = ball.y - ball.r;
+    multiplier = 1; 
+  }
+
+  else if(paddleHit === 3) {
+    ball.x = p.h - ball.r;
+    particlePos.x = ball.x + ball.r;
+    multiplier = 1; 
+  }
+
+  else if(paddleHit === 4) {
+    ball.x = p.h + ball.r;
+    particlePos.x = ball.x + ball.r;
     multiplier = 1; 
   }
   
