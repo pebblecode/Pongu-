@@ -1,0 +1,42 @@
+// colours
+$mulberry: #830051;
+$medi-blue: #003865;
+$imed-blue: #00add0;
+$blue: #68d3df;
+$green: #c4d600;
+$pink: #d0006f;
+$orange: #f0ab00;
+$purple: #3c1053;
+$stone: #9db0ac;
+
+$paper: white;
+$ink: #3f4444;
+$light-ink: lighten($ink, 35);
+$primary: $pink;
+$red: #E63000;
+$grey: #3f4444;
+
+// type
+$tera: 72px;
+$giga: 60px;
+$mega: 48px;
+$alpha: 36px;
+$beta: 24px;
+$gamma: 21px;
+$delta: 18px;
+$epsilon: 16px;
+$zeta: 14px;
+
+$body-font-size: $epsilon;
+
+$sans: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$sans-reg: 400;
+$sans-bold: 600;
+
+// spacing
+$max-width: 1200px;
+$large: 1000px;
+$medium: 650px;
+$small: 500px;
+
+$gutter: 20px;

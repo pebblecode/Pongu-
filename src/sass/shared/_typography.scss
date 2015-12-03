@@ -1,0 +1,91 @@
+a {
+  color: $ink;
+  text-decoration: none;
+  transition: 0.2s;
+
+  &:hover {
+    cursor: pointer;
+    color: $primary;
+  }
+}
+
+ol {
+  padding-left: 1.4em;
+
+  ol, ol ol {
+    margin-bottom: 0;
+  }
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+
+  ul, ul ul {
+    margin-bottom: 0;
+  }
+}
+
+h1, h2, h3, h4, h5, h6,
+p, ul, ol, dl, blockquote, pre, button {
+  margin: 0 0 20px 0;
+}
+
+.tera    { font-size: $tera; }
+.giga    { font-size: $giga; }
+.mega    { font-size: $mega; }
+.alpha   { font-size: $alpha; }
+.beta    { font-size: $beta; }
+.gamma   { font-size: $gamma; }
+.delta   { font-size: $delta; }
+.epsilon { font-size: $epsilon; }
+.zeta    { font-size: $zeta; }
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-weight: $sans-reg;
+}
+
+h1, h2, h3, .h1, .h2, .h3 {
+  line-height: 1;
+}
+
+h1, .h1 {
+  font-size: $mega;
+  margin-bottom: 0;
+  letter-spacing: -0.4px;
+
+  @media screen and ( max-width: $medium ) {
+    font-size: $mega - 8px;
+  }
+}
+
+h2, .h2 {
+  font-size: $alpha;
+  margin-bottom: 0;
+  letter-spacing: -0.2px;
+
+  @media screen and ( max-width: $medium ) {
+    font-size: $alpha - 4px;
+  }
+}
+
+h3, .h3 {
+  font-size: $beta;
+  letter-spacing: -0.2px;
+}
+
+h4, .h4 {
+  font-size: $gamma;
+}
+
+h5, .h5 {
+  font-size: $epsilon;
+}
+
+h6, .h6 {
+  font-size: $zeta;
+}
+
+strong {
+  font-weight: $sans-bold;
+}
